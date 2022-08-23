@@ -3,3 +3,6 @@ manifest.json
 build/*
 dist/*
 node_modules
+
+.DS_Store
+pnpm-lock.yaml

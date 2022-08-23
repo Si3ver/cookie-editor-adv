@@ -258,6 +258,39 @@
             }, 1500);
         });
 
+        document.getElementById('export-cookies-str').addEventListener('click', () => {
+            let buttonIcon = document.getElementById('export-cookies-str').querySelector('use');
+            if (buttonIcon.getAttribute("href") === "../sprites/solid.svg#check") {
+                return;
+            }
+
+            buttonIcon.setAttribute("href", "../sprites/solid.svg#check");
+
+            var result = ''
+            for (var cookieId in loadedCookies) {
+                var exportedCookie = loadedCookies[cookieId].cookie;
+                exportedCookie.storeId = null;
+                if (exportedCookie.sameSite === 'unspecified') {
+                    exportedCookie.sameSite = null;
+                }
+                if (exportedCookie) {
+                    var cKey = exportedCookie.name;
+                    var cVal = exportedCookie.value;
+                    
+                    if (cKey && cVal && !cKey.startsWith('_')) {
+                        result += `${cKey}=${cVal};`;
+                    }
+                }
+            }
+
+            copyText(result)
+
+            sendNotification('Cookies exported to clipboard');
+            setTimeout(() => {
+                buttonIcon.setAttribute("href", "../sprites/solid.svg#file-export");
+            }, 1500);
+        });
+
         document.getElementById('import-cookies').addEventListener('click', () => {
             if (disableButtons) {
                 return;
